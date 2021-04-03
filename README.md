@@ -7,7 +7,7 @@ countries. The result is an interactive map which visualizes trends in a chosen 
 ## Installation:
 ```Bash
 $ git clone https://github.com/MykhailoSobko/Twitter_Trends_Map.git
-$ cd homeworks_project
+$ cd Twitter_Trends_Map
 $ pip install -r requirements.txt
 ```
 ## Usage:
