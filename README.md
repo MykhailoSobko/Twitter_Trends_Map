@@ -2,7 +2,7 @@
 ## Description
 The aim of the project is to analyze Twitter trends and popular hashtags in different 
 countries. The result is an interactive map which visualizes trends in a chosen region.
-## Table of contents:
+## Table of contents
 ### Wiki pages
 ## Installation
 ```Bash
