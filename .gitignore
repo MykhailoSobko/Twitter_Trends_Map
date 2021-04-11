@@ -1,4 +1,4 @@
 venv
 .idea
-response.json
-response_filtered.json
+trends.json
+trends_filtered.json
