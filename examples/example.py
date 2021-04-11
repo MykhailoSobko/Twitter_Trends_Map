@@ -1,19 +1,29 @@
 import requests
-
+import json
 
 def get_json():
     """
-    Function sent request to Twitter Api and  get .json object with information about current twitter user.
+    Function sends request to Twitter Api and gets .json object with information about current trends in Twitter.
     """
     base_url = "https://api.twitter.com/1.1/trends/place.json?id=1"
-    bearer_token = "AAAAAAAAAAAAAAAAAAAAAKkSNAEAAAAADGjajQeyVyQTi28qCAff1Mrl520%3DGzjvYM2YJgXGIMZQzXE23E4jUcSmIsOpsGCQcAnhL87so6O4JC"
+    bearer_token = "BEARER TOKEN WAS REMOVED DUE TO SAFETY REASONS"
 
     search_headers = {
         "Authorization": f'Bearer {bearer_token}'
     }
+    search_params = {
+        "exclude": "hashtags"
+    }
 
     response = requests.get(base_url, headers=search_headers)
-    return response.json()
+    response_filtered = requests.get(base_url, headers=search_headers, params=search_params)
+
+    with open('trends.json', 'w') as trends:
+        trends.write(json.dumps(response.json(), indent=4))
+
+    with open('trends_filtered.json', 'w') as filter_trends:
+        filter_trends.write(json.dumps(response_filtered.json(), indent=4))
+    return response.json(), response_filtered.json()
 
 
 if __name__ == '__main__':

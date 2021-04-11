@@ -1,0 +1,4 @@
+venv
+.idea
+response.json
+response_filtered.json
