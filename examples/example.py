@@ -16,14 +16,14 @@ def get_json():
     }
 
     response = requests.get(base_url, headers=search_headers)
-    responce_filtered = requests.get(base_url, headers=search_headers, params=search_params)
+    response_filtered = requests.get(base_url, headers=search_headers, params=search_params)
 
     with open('trends.json', 'w') as trends:
         trends.write(json.dumps(response.json(), indent=4))
 
     with open('trends_filtered.json', 'w') as filter_trends:
-        filter_trends.write(json.dumps(responce_filtered.json(), indent=4))
-    return response.json(), responce_filtered.json()
+        filter_trends.write(json.dumps(response_filtered.json(), indent=4))
+    return response.json(), response_filtered.json()
 
 
 if __name__ == '__main__':
