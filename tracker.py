@@ -97,5 +97,5 @@ if __name__ == '__main__':
     t = Tracker()
     t.get_all_users_trends()
     # pprint(t.to_track)
-    fresh = t.get_trends_form_api()
+    fresh = t.get_trends_from_api()
     t.pass_trends_to_db(fresh)
