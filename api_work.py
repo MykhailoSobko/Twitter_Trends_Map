@@ -1,18 +1,8 @@
-"""
-Api key: Qe5JCyirsxF8Bm7NxRUxnYElo
-Api secret: XdcfwjYkr3fHbFTYlZnGA8Q4oLttY8DFzKFpkbb8GEwXWkACpK
-
-Bearer token: 
-
-Access token: 1099616859274600449-2e6lBnIzgOxOPCDWCOVCwKgr84Vhol
-Access secret: mtHovZ3sUvCvoxaClMnyySoDqMsUjcNdsOWqeaAbYQpOz
-"""
-
 import json
 import requests
 from pprint import pprint
 
-bearer_token = "AAAAAAAAAAAAAAAAAAAAAFENNAEAAAAAv64mN0Pv8NhUZXJW4%2BYfJrCfbTY%3DV7sARtRzvCflWL2iK1wAfTYrwLaQe9cZ55IdwX32dFmIKlC4Qx"
+bearer_token = "BEARER TOKEN"
 
 
 def get_place_woeid(country=None, city=None, path='place_woeids.json'):
