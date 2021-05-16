@@ -1,8 +1,8 @@
+from pymongo import MongoClient
 import json
 from pprint import pprint
-from pymongo import MongoClient
 
-connection = 'CONNECTION URL WAS REMOVED DUE TO SAFETY REASONS'
+connection = 'mongodb+srv://admin01:4A9wGWOpPVdcXZ56@trends-map-project.jjtxk.mongodb.net/app?retryWrites=true&w=majority'
 client = MongoClient(connection)
 
 db = client['app']
@@ -34,33 +34,42 @@ class Trend:
 
 
 class TrendsADT:
-    def __init__(self, trends: list):
+    def __init__(self, trends=None, as_of=None, location=None):
         '''Initialize trends'''
-        self.as_of = trends[0]["as_of"]
-        self.location = trends[0]["locations"][0]['name']
-        self._trends = self._filter(trends[0]["trends"])
-
+        if trends:
+            self.as_of = as_of
+            self.location = location
+            self._trends = self._filter(trends)
+        else:
+            self._trends = []
 
     def __iter__(self):
         '''Iterate through trends'''
         return iter(self._trends)
 
-
     def __getitem__(self, index):
         '''Get trend by its index'''
         return self._trends[index]
-
+    
+    def add_trends_to_others(self, trends, as_of, location):
+        '''Add new trends to self._trends, so in the end
+        every trend that users are tracking will be pushed in one time'''
+        for trend in trends:
+            trend = Trend(trend, as_of, location).filter_trend()
+            self._trends.append(trend)
 
     def _already_in_db(self, trend: dict) -> bool:
         '''
-        Finds if specific trend's name is already in data base
+        Finds if specific trend is already in data base.
+        Looks for trend_name and location. As there can be trends with same
+        name but with different locations.
+
         if trend is already present in DB, return True
         if it is not return False
         '''
-        if collection.find_one({'name': trend['name']}):
+        if collection.find_one({'name': trend['name'], 'country': trend['country']}):
             return True
         return False
-
 
     def push_to_db(self):
         '''
@@ -68,6 +77,19 @@ class TrendsADT:
         If some trend is already present in DB then its 'tweet_volume' and 'added_at' 
         parameters are added to analytics object.
         If trend is fresh and is not present in DB, then it's info is added to DB
+
+        Each trend object has the following structure:
+        {
+            'name': name,
+            'added_at': added_at,
+            'country': country
+            'analytics': {
+                timestamp: tweet_volume,
+                ...
+            }
+        }
+
+        Return deleted trends, those that cannot be tracked anymore
         '''
         deleted = self._compare_trends()  # keep track of trends that aren't in top50
 
@@ -86,9 +108,10 @@ class TrendsADT:
                     collection.update_one({'name': trend['name']}, \
                         {'$set': {'analytics.' + new_time_stamp: new_tweet_volume}})
                     modified += 1
-
-        return added_to_db, modified, len(deleted)
-
+        
+        # print the following info for debugging reasons
+        print(f'added to DB: {added_to_db}, modified: {modified}, deleted: {len(deleted)}')
+        return deleted
 
     def _compare_trends(self):
         '''
@@ -98,30 +121,37 @@ class TrendsADT:
         '''
         db_trends = collection.find({}) # get all trends from db
         deleted_from_db = []
-        
+
         for d_trend in db_trends:
             present = False
             for fresh_trend in self._trends:
                 if d_trend['name'] == fresh_trend['name']:
                     present = True
-            
+
             # if trend from DB is not found among fresh trends, then it is
             # not in top50 anymore, so delete that old trend from DB.
             if not present:
-                self._delete_trend_from_DB(d_trend['name'])
+                self._delete_trend_from_DB(d_trend['name'], d_trend['country'])
                 deleted_from_db.append(d_trend)
         
         return deleted_from_db
 
-
-    def _delete_trend_from_DB(self, name):
+    def _delete_trend_from_DB(self, name, country):
         '''Delete trend with a given name from the DB'''
-        collection.delete_one({'name': name})
-
+        collection.delete_one({'name': name, 'country': country})
 
     def _filter(self, trends):
         ''' Filter trend's info '''
         for i, trend in enumerate(trends):
             trends[i] = Trend(trend, self.as_of, self.location).filter_trend()
-
         return trends
+    
+    def get_trend_from_db(self, trend_name: str, country: str) -> dict:
+        '''Gets info about given trend in db'''
+        return collection.find_one({'name': trend_name, 'country': country})
+
+
+if __name__ == '__main__':
+    trends_adt = TrendsADT()
+    tr = trends_adt.get_trend_from_db('#RCBvKKR', 'Worldwide')
+    pprint(tr)
