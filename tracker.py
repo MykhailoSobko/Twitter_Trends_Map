@@ -42,7 +42,7 @@ class Tracker:
 
     def pass_trends_to_db(self, raw_trends_info: list):
         '''
-        Get json object with trends in a spesific country
+        Get json object with trends in a specific country
         Use: TrendsADT to store trends list
         '''
         trends_adt = TrendsADT()
@@ -64,15 +64,15 @@ class Tracker:
                 trend_name = trend['name']
                 self.to_track[location].remove(trend_name)
 
-    def get_trends_form_api(self):
+    def get_trends_from_api(self):
         """
         Helper function to get trends that users are tracking
         (filter out only those trends that are being tracked by users)
 
-        Return object with the followig structure:
+        Return object with the following structure:
         [
             (
-                list with dicts that contain trands info,
+                list with dicts that contain trends info,
                 as_of parameter
                 location parameter
             )
