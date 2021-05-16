@@ -2,7 +2,7 @@ import json
 import requests
 from pprint import pprint
 
-bearer_token = "BEARER TOKEN"
+bearer_token = "BEARER TOKEN REMOVED"
 
 
 def get_place_woeid(country=None, city=None, path='place_woeids.json'):
