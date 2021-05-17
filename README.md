@@ -1,7 +1,14 @@
 # Twitter Trends Map
-## Description
-The aim of the project is to analyze Twitter trends and popular hashtags in different 
-countries. The result is an interactive map which visualizes trends in a chosen region.
+## Призначення та коротка характеристика програми
+Програма призначена для визначення популярних хештегів та трендів соціальної мережі Twitter. Користувач програми може переглянути топ тренди для певної країни на інтерактивній карті та після реєстрації відстежувати статистику по цих трендах.
+
+## Структура програми з коротким описом модулів
+Модулі:
+<p>trends_adt.py - модуль, який містить 2 ADT, з якими працює наша програма.<p/>
+<p>user_bd.py - модуль для роботи з базою даних, авторизації користувачів.<p/>
+<p>trecker.py - модуь для роботи з трендами.<p/>
+<p>Api_work.py - модуль для роботи з twitter api.<p/>
+
 ## Table of contents
 ### Wiki pages
 ## Installation
@@ -12,8 +19,9 @@ $ pip install -r requirements.txt
 ```
 ## Usage
 ## Credits
-Mykhailo-Taras Sobko, Olesia Nedopas, Tetiana Prysiazhnyk, Yaroslav Tsymbalista, Ostap Dutka  
+Mykhailo-Taras Sobko, Olesia Nedopas, Tetiana Prysiazhnyk, Yaroslav Tsymbalista, Ostap Dutka 
 Ukrainian Catholic University, Apllied Sciences Faculty, 2021
 
 ## License
 GNU General Public License v3.0
+
