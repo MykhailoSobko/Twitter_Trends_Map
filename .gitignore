@@ -2,3 +2,4 @@ venv
 .idea
 trends.json
 trends_filtered.json
+__pycache__/
