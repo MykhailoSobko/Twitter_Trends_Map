@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect
-from user_db import User, Authenticator, UserAlreadyExistsError, IncorrectCredentials
+from user_db import User, Authenticator, UserAlreadyExistsError, IncorrectCredentials, TooManyTracked
 from api_work import get_json
 from trends_adt import *
 
@@ -50,6 +50,7 @@ def login():
         password = request.form.get("password")
         print(password)
         auth.login(username, password)
+        print(auth.current_user)
         return redirect("/")
     except IncorrectCredentials:
         return redirect("/error/incor")
@@ -73,8 +74,20 @@ def addtrack(country, name):
     if request.method == "POST":
         if not auth.current_user:
             return redirect("/error/track")
-        auth.current_user._add_track_trend_to_db(name, country)
+        try:
+            auth.current_user.add_trend_to_track(name, country)
+        except TooManyTracked:
+            return redirect("/error/too_many_tracked")
     return render_template("added.html", trend=name)
+
+
+@app.route("/deltrack/<country>/<name>", methods=["POST", "GET"])
+def deltrack(country, name):
+    if request.method == "POST":
+        if not auth.current_user:
+            return redirect("/error/track")
+        auth.current_user.delete_trend_from_tracked(name, country)
+    return render_template("deleted.html", trend=name)
 
 
 @app.route("/profile", methods=["GET"])
@@ -84,7 +97,7 @@ def display_info():
     print(current_user.username)
     userinfo = current_user.get_all_info_for_user(current_user.username)
     print(userinfo)
-    return render_template("profile.html", user_trends=userinfo["track"], username=current_user.username)
+    return render_template("profile.html", user_trends=userinfo[0], username=current_user.username, tracked=userinfo[2])
 
 
 @app.route("/error/<name>")

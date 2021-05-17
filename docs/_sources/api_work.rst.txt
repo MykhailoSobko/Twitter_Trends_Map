@@ -1,0 +1,7 @@
+api\_work module
+================
+
+.. automodule:: api_work
+   :members:
+   :undoc-members:
+   :show-inheritance:

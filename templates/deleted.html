@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Error</title>
+    <title>Trend added</title>
 </head>
 <style>
     * {
@@ -26,7 +26,24 @@
         font-size: 40px;
     }
 
-    .navbar h3 {
+    .navbar {
+  overflow: hidden;
+  background-color: #333;
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+}
+
+.navbar a {
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 25px 20px;
+  text-decoration: none;
+}
+
+.navbar h3 {
   float: left;
   display: block;
   color: white;
@@ -100,24 +117,9 @@
 <body>
     <div class="navbar">
         <a href="/">Home</a>
-    </div>
+      </div>
     <div class="header">
-        {% if name == "track" %}
-        <h1>You are not logged in</h1>
-        <p>To perform this action you need to log in or register</p>
-        <a href="/loginform"><input type="submit" value="Log In" width=40 height=10></a>
-        <a href="/regform"><input type="submit" value="Register" width=40 height=10></a>
-        {% elif name == "userex" %}
-        <h1>This user already exists</h1>
-        <p>Please enter unique values</p>
-        {% elif name == "incor" %}
-        <h1>Incorrect username or password</h1>
-        <p>Please try again</p>
-        {% elif name == "too_many_tracked" %}
-        <h1>You can't track more than 5 trends at the same time</h1>
-        <p>You can got to Profile and delete trend from tracked list and try again</p>
-        {% endif %}
-
+      <h1>You stoped tracking {{trend}}</h1>
     </div>
 
 </body>

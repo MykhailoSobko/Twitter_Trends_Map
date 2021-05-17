@@ -1,0 +1,7 @@
+trends\_adt module
+==================
+
+.. automodule:: trends_adt
+   :members:
+   :undoc-members:
+   :show-inheritance:

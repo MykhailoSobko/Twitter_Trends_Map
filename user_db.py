@@ -81,7 +81,7 @@ class User:
     def get_all_info_for_user(username: str):
         """Gets trends info which user is tracking and returns them as dictionaries"""
         user_info = collection.find_one({'username': username})
-        tracked = user_info['tracked']
+        tracked = user_info['track']
 
         # get all trends info from db, using Trends ADT
         # get_trend_from_db(self, trend_name: str, country: str)
@@ -89,15 +89,15 @@ class User:
         deleted = []
         adt = TrendsADT()
         for trend in tracked:
-            tr_name = tracked[0]
-            loc = tracked[1]
+            tr_name = trend[0]
+            loc = trend[1]
             db_trend = adt.get_trend_from_db(tr_name, loc)
             if db_trend:
                 tr_info.append(db_trend)
             else:
                 deleted.append(trend)
 
-        return tr_info, deleted
+        return tr_info, deleted, tracked
 
     @staticmethod
     def check_trend_growth(statistic):
@@ -193,4 +193,6 @@ class TooManyTracked(Exception):
 
 if __name__ == '__main__':
     auth = Authenticator()
-    auth.login('tania', '1234455')
+    auth.login('cf', 'cf')
+    u = auth.current_user
+    # u.delete_trend_from_tracked('{4{nm}}', 'United States')

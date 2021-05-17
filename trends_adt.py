@@ -2,7 +2,7 @@ from pymongo import MongoClient
 import json
 from pprint import pprint
 
-connection = 'CONNECTION URL REMOVED'
+connection = 'CONNECTION URL'
 client = MongoClient(connection)
 
 db = client['app']

@@ -26,7 +26,24 @@
         font-size: 40px;
     }
 
-    .navbar h3 {
+    .navbar {
+  overflow: hidden;
+  background-color: #333;
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+}
+
+.navbar a {
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 25px 20px;
+  text-decoration: none;
+}
+
+.navbar h3 {
   float: left;
   display: block;
   color: white;
@@ -98,6 +115,9 @@
     }
 </style>
 <body>
+    <div class="navbar">
+        <a href="/">Home</a>
+    </div>
     <div class="header">
 <!--        {% if name == "track" %}-->
 <!--        <h1>You are not logged in</h1>-->

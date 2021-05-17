@@ -1,0 +1,7 @@
+user\_db module
+===============
+
+.. automodule:: user_db
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -3,7 +3,7 @@ from trends_adt import TrendsADT
 from pymongo import MongoClient
 from pprint import pprint
 
-connection = 'CONNECTION URL WAS REMOVED DUE TO SAFETY REASONS'
+connection = 'CONNECTION URL'
 client = MongoClient(connection)
 
 db = client['app']
@@ -11,17 +11,14 @@ collection = db['users']
 
 
 class Tracker:
-    """ Track trends with this class """
-
+    ''' Track trends with this class '''
     def __init__(self):
         self.to_track = {}
 
     def get_all_users_trends(self):
-        """
-        Connect to db and get all trends users are tracking
+        '''Connect to db and get all trends users are tracking
         Forms to_track dictionary, where keys are countries, and
-        values are sets with trend names
-        """
+        values are sets with trend names'''
         users = collection.find({})
         tracked_by_users = set()
         for user in users:
@@ -29,13 +26,13 @@ class Tracker:
             for trend in tracking:
                 if not tuple(trend) in tracked_by_users:
                     tracked_by_users.add(tuple(trend))
-
+        
         # form a dict out of set, where keys are counties,
         # vals are trend-names
         for trend in list(tracked_by_users):
             country = trend[1]
             trend_name = trend[0]
-            # if country not present in a dict, then create new key
+            # if cuntry not present in a dict, then create new key
             if country not in self.to_track:
                 self.to_track[country] = set()
                 self.to_track[country].add(trend_name)
@@ -44,16 +41,16 @@ class Tracker:
                     self.to_track[country].add(trend_name)
 
     def pass_trends_to_db(self, raw_trends_info: list):
-        """
+        '''
         Get json object with trends in a specific country
         Use: TrendsADT to store trends list
-        """
+        '''
         trends_adt = TrendsADT()
         for elem in raw_trends_info:
             raw_trends = elem[0]
             as_of = elem[1]
             location = elem[2]
-            # if raw_trends is empty list, skip
+            # if raw_trends is empt list, skip
             if raw_trends:
                 trends_adt.add_trends_to_others(raw_trends, as_of, location)
 
