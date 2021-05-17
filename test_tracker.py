@@ -30,9 +30,10 @@ class TestTracker(TestCase):
 
     def test_pass_trends_to_db(self):
         """Test the pass_trends_to_db method."""
+        self.tracker.get_all_users_trends()
         trends = self.tracker.get_trends_from_api()
         self.tracker.pass_trends_to_db(trends)
-        self.assertEqual(self.tracker.to_track, {})
+        self.assertNotEqual(self.tracker.to_track, {})
 
 
 if __name__ == "__main__":
