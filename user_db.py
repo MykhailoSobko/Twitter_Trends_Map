@@ -3,7 +3,7 @@ from trends_adt import TrendsADT
 import hashlib
 from pprint import pprint
 
-connection = 'mongodb+srv://admin01:4A9wGWOpPVdcXZ56@trends-map-project.jjtxk.mongodb.net/app?retryWrites=true&w=majority'
+connection = 'CONNECTION URL'
 client = MongoClient(connection)
 
 db = client['app']
