@@ -6,28 +6,31 @@ bearer_token = "BEARER TOKEN REMOVED"
 
 
 def get_place_woeid(country=None, city=None, path='place_woeids.json'):
-    '''Get woeid parameter for forming request to trends API.
+    """
+    Get woeid parameter for forming request to trends API.
     If country is specified, return its woeid, if country and city are None,
-    return Worldwide woeid which equals to 1'''    
+    return Worldwide woeid which equals to 1
+    """
     # look for woeids in a ready file
     with open(path, 'r', encoding='utf-8') as read_file:
         data = json.load(read_file)
-    
+
     if not country:
         woeid = 1
     else:
-         woeid = None
+        woeid = None
 
-    countries = {item['name']:item['woeid'] for item in data if item['placeType']['code']==12}
-    
-    if type(country)==str:
+    countries = {item['name']: item['woeid'] for item in data if item['placeType']['code'] == 12}
+
+    if type(country) == str:
         if country in countries:
-            woeid = countries[country]    
+            woeid = countries[country]
 
-    # if city is given
+            # if city is given
     if city and woeid:
-        cities = {item['name']:item['woeid'] for item in data if item['placeType']['code']==7 and item['parentid']==woeid}
-        if type(city)==str and city in cities:
+        cities = {item['name']: item['woeid'] for item in data if
+                  item['placeType']['code'] == 7 and item['parentid'] == woeid}
+        if type(city) == str and city in cities:
             woeid = cities[city]
         elif city:
             return None

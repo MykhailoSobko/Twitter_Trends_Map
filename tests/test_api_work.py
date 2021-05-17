@@ -3,10 +3,10 @@ import api_work
 
 
 class TestApiWork(TestCase):
-    '''doc'''
+    """doc"""
 
     def test_get_place_woeid(self):
-        '''doc'''
+        """doc"""
         country_0 = ''
         city_0 = ''
         country_1 = 'Ukraine'
@@ -27,8 +27,8 @@ class TestApiWork(TestCase):
         self.assertEqual(api_work.get_place_woeid(country_0, city_3), None)
 
     def test_get_json(self):
-        '''doc'''
-        self.assertEqual(type(api_work.get_json('Ukraine')), type(api_work.get_json()),  type(api_work.get_json('')))
+        """doc"""
+        self.assertEqual(type(api_work.get_json('Ukraine')), type(api_work.get_json()), type(api_work.get_json('')))
         self.assertEqual(type(api_work.get_json('country')), type(api_work.get_json('Ukraine', 'Warsaw')))
         self.assertEqual(type((api_work.get_json('Ukraine')['trends'])), list)
         self.assertEqual(type((api_work.get_json('Ukraine')['trends'][0])), dict)

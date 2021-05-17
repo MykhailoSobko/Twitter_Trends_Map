@@ -1,6 +1,7 @@
 import requests
 import json
 
+
 def get_json():
     """
     Function sends request to Twitter Api and gets .json object with information about current trends in Twitter.

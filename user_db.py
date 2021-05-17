@@ -30,7 +30,7 @@ class User:
         self.password = passwrd
         self.logged_in = None
 
-        # contains trends user is trackng
+        # contains trends user is tracking
         # set with tuples: (trend_name, country)
         self.track_trends = []
 
@@ -61,7 +61,7 @@ class User:
         print('logged out')
 
     def add_trend_to_track(self, trend_name: str, country: str):
-        """User can choose trands to track.
+        """User can choose trends to track.
         info is added in a form of tuple: (trend_name, country).
 
         First check if such trend is tracked already by the user,
@@ -77,7 +77,8 @@ class User:
         # mb here add a custom exception that is raised when the specific
         # trend is already tracked by the user
 
-    def get_all_info_for_user(self, username: str):
+    @staticmethod
+    def get_all_info_for_user(username: str):
         """Gets trends info which user is tracking and returns them as dictionaries"""
         user_info = collection.find_one({'username': username})
         tracked = user_info['tracked']
@@ -98,14 +99,15 @@ class User:
 
         return tr_info, deleted
 
-    def check_trend_growth(self, statistic):
+    @staticmethod
+    def check_trend_growth(statistic):
         statistic_lst = []
         for date in statistic["analytics"]:
             if statistic["analytics"][date] is not None:
                 statistic_lst.append(statistic["analytics"][date])
 
         growth = statistic_lst[-1] - statistic_lst[-2]
-        return growth/100
+        return growth / 100
 
     def _add_track_trend_to_db(self, trend_name, country):
         """Add new trend to track to the DB. Adds to
@@ -136,14 +138,15 @@ class Authenticator:
         if not self.user_exists(username):
             self.users[username] = User(username, password)
             self.users[username].add_user()  # add user to DB
-            # if user refistered, by default login.
+            # if user registered, by default login.
             self.users[username].logged_in = True
             self.current_user = self.users[username]
             print(f'logged in as {username}')
         else:
             raise UserAlreadyExistsError('The username is already taken')
 
-    def user_exists(self, name):
+    @staticmethod
+    def user_exists(name):
         """If user is present, returns whole info about the user,
         in other case returns None"""
         return collection.find_one({'username': name})
@@ -158,8 +161,8 @@ class Authenticator:
         user = self.user_exists(username)
 
         if user:
-            recieved_pw = user['password']
-            if password == recieved_pw:
+            received_pw = user['password']
+            if password == received_pw:
                 self.current_user = User(username, password)
                 self.current_user.logged_in = True
             else:
@@ -174,16 +177,18 @@ class Authenticator:
 
 
 class UserAlreadyExistsError(Exception):
-    '''Raised when the username exists in DB'''
+    """Raised when the username exists in DB"""
 
 
 class IncorrectCredentials(Exception):
-    '''Raised when user logs in passing incorrect
-    password or username'''
+    """
+    Raised when user logs in passing incorrect
+    password or username
+    """
 
 
 class TooManyTracked(Exception):
-    '''Raised when more than 5 trends are being tracked'''
+    """Raised when more than 5 trends are being tracked"""
 
 
 if __name__ == '__main__':
